@@ -5,7 +5,7 @@ python uniform_sample_configs.py \
     --categories category1 category2 category3 \
     --template path/to/template.yaml \
     --output-dir path/to/output/directory \
-    --total-files 1000 \
+    --total-files total number of training data files \
     --root-data-dir path/to/data \
     --num-configs 5
 ```
