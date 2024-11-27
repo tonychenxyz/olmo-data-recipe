@@ -1,4 +1,6 @@
-# Generate training config files with uniform mixture weight sampling
+# Generate training config files
+
+This do random sampling of data mixture and generate olmo config files with corresponding data files
 
 ```bash
 python uniform_sample_configs.py \
@@ -10,8 +12,18 @@ python uniform_sample_configs.py \
     --num-configs 5
 ```
 
+# Training
 Then run the training script with the generated config files:
 
 ```bash
 torchrun --nproc_per_node=2 scripts/train.py configs/tiny/copy-OLMo-20M.yaml --no_pre_train_checkpoint
 ```
+
+# Outputs
+- workspace/runname contains weight checkpoints
+- workspace/runname/train_data/global_indices.npy contains pointers to training data (still figuring out how this works)
+
+# TODO:
+- Set up WandB
+- Select right downstream eval in template yaml file
+
