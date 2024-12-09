@@ -2,11 +2,18 @@ import argparse
 import os
 from pathlib import Path
 import random
+import numpy as np
 from generate_config_util import generate_mixture_config
+
 def generate_random_proportions(categories):
-    weights = [random.random() for _ in categories]
-    total = sum(weights)
-    return {cat: weight/total for cat, weight in zip(categories, weights)}
+    """Generate random proportions using Dirichlet distribution for uniform sampling from simplex."""
+    # weights = [random.random() for _ in categories]
+#     total = sum(weights)
+#     return {cat: weight/total for cat, weight in zip(categories, weights)}
+
+    alpha = np.ones(len(categories))  # All ones for uniform distribution
+    weights = np.random.dirichlet(alpha)
+    return {cat: weight for cat, weight in zip(categories, weights)}
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
