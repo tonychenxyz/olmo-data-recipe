@@ -104,10 +104,12 @@ def main(cfg: TrainConfig) -> None:
 
     # Maybe start W&B run.
     if cfg.wandb is not None and (get_global_rank() == 0 or not cfg.wandb.rank_zero_only):
+        print(f"Start wandb.")
         wandb_dir = Path(cfg.save_folder) / "wandb"
         wandb_dir.mkdir(parents=True, exist_ok=True)
-        wandb.init(
+        run = wandb.init(
             dir=wandb_dir,
+            id=cfg.wandb.run_id,
             project=cfg.wandb.project,
             entity=cfg.wandb.entity,
             group=cfg.wandb.group,
@@ -115,6 +117,10 @@ def main(cfg: TrainConfig) -> None:
             tags=cfg.wandb.tags,
             config=cfg.asdict(exclude=["wandb"]),
         )
+        print(f"*" * 84)
+        print(f"Intended id: {cfg.wandb.run_id}")
+        print(f"W&B run started with ID {run.id}")
+        print(f"*" * 84)
 
     barrier()
 

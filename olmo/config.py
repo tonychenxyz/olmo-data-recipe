@@ -668,6 +668,17 @@ class WandbConfig(BaseConfig):
     log_artifacts: bool = False
     rank_zero_only: bool = True
     log_interval: int = 1
+    run_id: Optional[str] = None
+
+@dataclass
+class DataMixingConfig(BaseConfig):
+    categories: Optional[List[str]] = None
+    target_token_probs: Optional[List[float]] = None
+    actual_token_probs: Optional[List[float]] = None
+    target_file_probs: Optional[List[float]] = None
+    actual_file_probs: Optional[List[float]] = None
+    num_tokens: Optional[int] = None
+
 
 
 @dataclass
@@ -699,7 +710,7 @@ class CompilerConfig(BaseConfig):
     dynamic: Optional[bool] = None
     """
     From the torch docs:
-    
+
     Use dynamic shape tracing. When this is True, we will up-front attempt to generate a kernel that is as dynamic
     as possible to avoid recompilations when sizes change. This may not always work as some
     operations/optimizations will force specialization; use TORCH_LOGS=dynamic to debug overspecialization. When
@@ -1249,6 +1260,11 @@ class TrainConfig(BaseConfig):
     """
     Outputs of model submodules are saved during the provided steps. Submodule outputs
     can be compared using `scripts/compare_module_outputs.py`.
+    """
+
+    data_mixing: Optional[DataMixingConfig] = None
+    """
+    Parameters for data mixing coefficients
     """
 
     @property
